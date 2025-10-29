@@ -3,21 +3,20 @@ import mediapipe as mp
 import pandas as pd
 import numpy as np
 
-cap = cv2.VideoCapture(0)
-mp_holistic = mp.solutions.holistic
-mp_draw = mp.solutions.drawing_utils
-holistic = mp_holistic.Holistic(
-   static_image_mode=False,
-    model_complexity=2,            # 1 hoặc 2 = chính xác hơn
-    smooth_landmarks=True,
-    enable_segmentation=False,
-    refine_face_landmarks=True,
-    min_detection_confidence=0.3,  # giảm để dễ nhận tay hơn
-    min_tracking_confidence=0.6
+cap = cv2.VideoCapture(0) #Đọc webcam   
+mp_holistic = mp.solutions.holistic #gọi tv holistic
+mp_draw = mp.solutions.drawing_utils #gọi hàm drawing
+holistic = mp_holistic.Holistic( #xét cấu hình
+   static_image_mode=False, #xử lí video (false)/xử lí ảnh(True)
+    model_complexity=2,     #độ nhạy khi quét của cam(0:nhanh,nhạy,nhưng dễ bị tracking)        
+    smooth_landmarks=True,  #giữ độ ổn định của landmark
+    enable_segmentation=False, #tách nền
+    min_detection_confidence=0.3,  #ngưỡng tin cậy phát hiện cơ thể
+    min_tracking_confidence=0.6 #ngưỡng tin cậy theo dõi landmark
 )
 
-lm_list=[]
-label = "normal1"
+lm_list=[] #hàm list tổng
+label = "normal1" #tên label
 
 have_frame = 400
 def make_landmark_pose(results):
@@ -108,4 +107,5 @@ while len(lm_list)<have_frame:
 df = pd.DataFrame(lm_list)
 df.to_csv(label + ".txt")
 cap.release()
+
 cv2.destroyAllWindows()
