@@ -18,7 +18,7 @@ holistic = mp_holistic.Holistic( #xét cấu hình
 lm_list=[] #hàm list tổng
 label = "normal1" #tên label
 
-have_frame = 400
+have_frame = 400  #số frame train
 def make_landmark_pose(results):
     """Trả về list [x, y, z, visibility] cho 33 pose landmarks"""
     if not results.pose_landmarks:
@@ -27,7 +27,7 @@ def make_landmark_pose(results):
     for lm in results.pose_landmarks.landmark:
         c_lm.extend([lm.x, lm.y, lm.z, lm.visibility])
         
-    return c_lm
+    return c_lm #trả về 132 điểm trên cơ thể
 def make_landmark_hand_left(result):
     """Trả về list [x, y, z] cho 21 left hand landmarks"""
     if not result.left_hand_landmarks:
@@ -36,7 +36,7 @@ def make_landmark_hand_left(result):
     for lm_hl in result.left_hand_landmarks.landmark:              
         c_lm_hl.extend([lm_hl.x, lm_hl.y, lm_hl.z])
         
-    return c_lm_hl
+    return c_lm_hl #trả về 63 điểm trên tay
 
 def make_landmark_hand_right(results):
     """Trả về list [x, y, z] cho 21 right hand landmarks"""
@@ -46,7 +46,7 @@ def make_landmark_hand_right(results):
     for lm_hr in results.right_hand_landmarks.landmark:
         c_lm_hr.extend([lm_hr.x, lm_hr.y, lm_hr.z])
         
-    return c_lm_hr
+    return c_lm_hr #trả về 63 điểm trên tay
 
 def draw_all_landmarks(mp_drawing, results, img):
     """Vẽ tất cả landmarks lên frame"""
@@ -109,3 +109,4 @@ df.to_csv(label + ".txt")
 cap.release()
 
 cv2.destroyAllWindows()
+
